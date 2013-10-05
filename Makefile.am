@@ -146,6 +146,9 @@ if HAVE_SWIG
 if HAVE_PYTHON
 SUBDIRS += swig/python
 endif # HAVE_PYTHON
+if HAVE_PERL
+SUBDIRS += swig/perl
+endif # HAVE_PERL
 endif # HAVE_SWIG
 
 EXTRA_DIST += swig/binding_api.txt swig/xwiimote.i

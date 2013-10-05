@@ -42,3 +42,11 @@ swig/python/setup.py
 swig/python/xwiimote.py
 swig/python/xwiimote.pyc
 swig/python/xwiimote_wrap.c
+swig/perl/Makefile.PL
+swig/perl/Makefile.perl
+swig/perl/perl_wrap.c
+swig/perl/MYMETA.yml
+swig/perl/blib/
+swig/perl/pm_to_blib
+swig/perl/xwiimote.bs
+swig/perl/xwiimote.pm

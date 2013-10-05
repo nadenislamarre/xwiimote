@@ -55,6 +55,8 @@ swig_enabled=yes
 swig_explain=
 swig_python_enabled=yes
 swig_python_explain=
+swig_perl_enabled=yes
+swig_perl_explain=
 AC_ARG_ENABLE(swig,
    [--disable-swig don't build the SWIG bindings.],
    swig_enabled=$enableval)
@@ -65,20 +67,29 @@ if test x$swig_enabled = xyes; then
      swig_enabled=no
      swig_explain="(swig not found)"
      swig_python_enabled=no
+     swig_perl_enabled=no
    else
      AM_PATH_PYTHON(, [have_python="yes"], [have_python="no"])
      if test x$have_python = xno; then
        swig_python_enabled=no
        swig_python_explain="(python not found)"
      fi
+
+     AC_PATH_PROG([PERL], [perl], [])
+     if test x$PERL = x; then
+       swig_perl_enabled=no
+       swig_perl_explain="(perl not found)"
+     fi
    fi
 else
   swig_enabled=no
   swig_explain="(swig disabled)"
   swig_python_enabled=no
+  swig_perl_enabled=no
 fi
 AM_CONDITIONAL(HAVE_SWIG, test "x$swig_enabled" = xyes)
 AM_CONDITIONAL(HAVE_PYTHON, test "x$swig_python_enabled" = xyes)
+AM_CONDITIONAL(HAVE_PERL, test "x$swig_perl_enabled" = xyes)
 
 #
 # Check for doxygen
@@ -107,7 +118,7 @@ AM_CONDITIONAL([HAVE_DOXYGEN], [test "$have_doxygen" = yes])
 # Write configuration
 #
 
-AC_CONFIG_FILES([Makefile libxwiimote.pc doc/Doxyfile swig/python/Makefile swig/python/setup.py])
+AC_CONFIG_FILES([Makefile libxwiimote.pc doc/Doxyfile swig/python/Makefile swig/python/setup.py swig/perl/Makefile swig/perl/Makefile.PL])
 AC_OUTPUT
 
 AC_MSG_NOTICE([Build configuration:
@@ -120,5 +131,6 @@ AC_MSG_NOTICE([Build configuration:
                 debug: $debug
               doxygen: $have_doxygen
        python binding: $swig_python_enabled $swig_explain$swig_python_explain
+         perl binding: $swig_perl_enabled $swig_explain$swig_perl_explain
 
         Run "${MAKE-make}" to start compilation process])
