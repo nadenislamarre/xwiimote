@@ -770,11 +770,13 @@ enum xwii_drums_abs {
  *
  * Payload of event objects.
  */
+#define XWII_MAX_ABS 8
+
 union xwii_event_union {
 	/** key event payload */
 	struct xwii_event_key key;
 	/** absolute motion event payload */
-	struct xwii_event_abs abs[8];
+	struct xwii_event_abs abs[XWII_MAX_ABS];
 	/** reserved; do not use! */
 	uint8_t reserved[128];
 };

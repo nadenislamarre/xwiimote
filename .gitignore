@@ -36,3 +36,9 @@ libxwiimote.pc
 doc/Doxyfile
 doc/html/
 doc/stamp-doxygen
+swig/python/build/
+swig/python/installed_files.log
+swig/python/setup.py
+swig/python/xwiimote.py
+swig/python/xwiimote.pyc
+swig/python/xwiimote_wrap.c

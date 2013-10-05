@@ -49,6 +49,38 @@ AM_CONDITIONAL([DEBUG], [test x$debug = xyes])
 AC_MSG_RESULT([$debug])
 
 #
+# Check for swig / python
+#
+swig_enabled=yes
+swig_explain=
+swig_python_enabled=yes
+swig_python_explain=
+AC_ARG_ENABLE(swig,
+   [--disable-swig don't build the SWIG bindings.],
+   swig_enabled=$enableval)
+
+if test x$swig_enabled = xyes; then
+   AC_CHECK_PROG([SWIG], [swig], [swig])
+   if test x$SWIG = x; then
+     swig_enabled=no
+     swig_explain="(swig not found)"
+     swig_python_enabled=no
+   else
+     AM_PATH_PYTHON(, [have_python="yes"], [have_python="no"])
+     if test x$have_python = xno; then
+       swig_python_enabled=no
+       swig_python_explain="(python not found)"
+     fi
+   fi
+else
+  swig_enabled=no
+  swig_explain="(swig disabled)"
+  swig_python_enabled=no
+fi
+AM_CONDITIONAL(HAVE_SWIG, test "x$swig_enabled" = xyes)
+AM_CONDITIONAL(HAVE_PYTHON, test "x$swig_python_enabled" = xyes)
+
+#
 # Check for doxygen
 #
 
@@ -75,7 +107,7 @@ AM_CONDITIONAL([HAVE_DOXYGEN], [test "$have_doxygen" = yes])
 # Write configuration
 #
 
-AC_CONFIG_FILES([Makefile libxwiimote.pc doc/Doxyfile])
+AC_CONFIG_FILES([Makefile libxwiimote.pc doc/Doxyfile swig/python/Makefile swig/python/setup.py])
 AC_OUTPUT
 
 AC_MSG_NOTICE([Build configuration:
@@ -87,5 +119,6 @@ AC_MSG_NOTICE([Build configuration:
 
                 debug: $debug
               doxygen: $have_doxygen
+       python binding: $swig_python_enabled $swig_explain$swig_python_explain
 
         Run "${MAKE-make}" to start compilation process])

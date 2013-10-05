@@ -139,6 +139,19 @@ xwiidump_LDFLAGS = \
 	$(AM_LDFLAGS)
 
 #
+# swig bindings
+#
+
+if HAVE_SWIG
+if HAVE_PYTHON
+SUBDIRS += swig/python
+endif # HAVE_PYTHON
+endif # HAVE_SWIG
+
+EXTRA_DIST += swig/binding_api.txt swig/xwiimote.i
+
+
+#
 # doxygen
 #
 
