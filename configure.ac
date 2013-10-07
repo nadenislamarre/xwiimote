@@ -70,7 +70,23 @@ if test x$swig_enabled = xyes; then
      swig_perl_enabled=no
    else
      AM_PATH_PYTHON(, [have_python="yes"], [have_python="no"])
-     if test x$have_python = xno; then
+     if test x$have_python = xyes
+     then
+       AC_CHECK_PROGS([PYTHON_CONFIG], [python-config python$PYTHON_VERSION-config], [no])
+       if test x$PYTHON_CONFIG != xno
+       then
+               BCK_CPPFLAGS=$CPPFLAGS
+               PYTHON_INCLUDE=$($PYTHON_CONFIG --includes)
+               CPPFLAGS=$PYTHON_INCLUDE
+               AC_CHECK_HEADER(Python.h, [have_python_headers="yes"], [have_python_headers="no"])
+               CPPFLAGS=$BCK_CFLAGS
+       fi
+     fi
+     if test x$have_python_headers != xyes; then
+       swig_python_enabled=no
+       swig_python_explain="(python headers not found)"
+     fi
+     if test x$have_python != xyes; then
        swig_python_enabled=no
        swig_python_explain="(python not found)"
      fi
